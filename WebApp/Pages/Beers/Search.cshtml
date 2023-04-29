@@ -9,6 +9,10 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </script>
 
+    <form action="@Url.Action("Search", "Home")" method="get">
+        <input type="text" name="searchString" placeholder="Wpisz wyszukiwany tekst">
+        <button type="submit">Szukaj</button>
+    </form>
 </div>
 
 <form method="post">

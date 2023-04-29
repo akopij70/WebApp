@@ -21,12 +21,14 @@ namespace WebApp.Pages.Beers
         }
 
         public IList<Beer> Beer { get;set; } = default!;
+       
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchText)
         {
             if (_context.Beer != null)
             {
-                    Beer = await _context.Beer.Where(b => b.price.Equals(1)).ToListAsync();
+                Beer = await _context.Beer.Where(b => b.name.Contains(searchText)).ToListAsync();
+                //Beer = await _context.Beer.Where(b => b.name.Contains("tyskie")).ToListAsync();
                 //Beer = await _context.Beer.ToListAsync();
             }
         }

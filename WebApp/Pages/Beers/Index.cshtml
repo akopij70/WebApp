@@ -7,9 +7,19 @@
 
 <h1>Index</h1>
 
+@*<form action="@Url.Action("OnGetAsync", "Beer")" method="get">
+    <input type="text" name="searchString" placeholder="Wpisz wyszukiwany tekst">
+    <button type="submit">Szukaj</button>
+</form>*@
+@using (Html.BeginForm("OnGetAsync", "Beer", FormMethod.Get))
+{
+    <input type="text" name="searchText" />
+    <button type="submit">Search</button>
+}
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
