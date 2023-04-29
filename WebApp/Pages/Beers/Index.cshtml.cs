@@ -12,6 +12,7 @@ namespace WebApp.Pages.Beers
 {
     public class IndexModel : PageModel
     {
+
         private readonly WebApp.Data.WebAppContext _context;
 
         public IndexModel(WebApp.Data.WebAppContext context)
@@ -25,7 +26,8 @@ namespace WebApp.Pages.Beers
         {
             if (_context.Beer != null)
             {
-                Beer = await _context.Beer.ToListAsync();
+                    Beer = await _context.Beer.Where(b => b.price.Equals(1)).ToListAsync();
+                //Beer = await _context.Beer.ToListAsync();
             }
         }
     }
