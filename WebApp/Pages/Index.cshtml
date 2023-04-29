@@ -7,4 +7,14 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+ 
+    <input type="text" id="searchBox" />
+<button type="button" onclick="search()">Search</button>
+<script>
+    function search() {
+        var searchQuery = document.getElementById("searchBox").value;
+        // Perform search logic here
+    }
+</script>
+
 </div>
