@@ -26,51 +26,41 @@ namespace WebApp.Pages.Beers
         [BindProperty(SupportsGet = true)]
         public string SearchText { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public DateTime? SearchDate { get; set; }
-
         public async Task OnGetAsync()
         {
-            IQueryable<Beer> beersQuery = _context.Beer;
-
+            IQueryable<Beer> beer = _context.Beer;
+            
             if (!string.IsNullOrEmpty(SelectedOption))
             {
                 switch (SelectedOption)
                 {
                     case "name":
-                        beersQuery = beersQuery.Where(b => b.name.Contains(SearchText));
+                        beer = beer.Where(b => b.name.Contains(SearchText));
                         break;
                     case "voltage":
                         if (float.TryParse(SearchText, out float voltage))
                         {
-                            beersQuery = beersQuery.Where(b => b.voltage == voltage);
+                            beer = beer.Where(b => b.voltage == voltage);
                         }
                         break;
                     case "volume":
                         if (float.TryParse(SearchText, out float volume))
                         {
-                            beersQuery = beersQuery.Where(b => b.volume == volume);
+                            beer = beer.Where(b => b.volume == volume);
                         }
                         break;
                     case "price":
                         if (float.TryParse(SearchText, out float price))
                         {
-                            beersQuery = beersQuery.Where(b => b.price == price);
-                        }
-                        break;
-                    case "date":
-                        if (SearchDate.HasValue)
-                        {
-                            beersQuery = beersQuery.Where(b => b.DeadLine.Date == SearchDate.Value.Date);
+                            beer = beer.Where(b => b.price == price);
                         }
                         break;
                     default:
-                         Beer = await beersQuery.ToListAsync();
+                         Beer = await beer.ToListAsync();
                         break;
                 }
             }
-
-            Beer = await beersQuery.ToListAsync();
+            Beer = await beer.ToListAsync();
         }
     }
 }
