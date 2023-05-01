@@ -26,6 +26,9 @@ namespace WebApp.Pages.Beers
         [BindProperty(SupportsGet = true)]
         public string SearchText { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public DateTime? SearchDate { get; set; }
+
         public async Task OnGetAsync()
         {
             IQueryable<Beer> beersQuery = _context.Beer;
@@ -49,7 +52,20 @@ namespace WebApp.Pages.Beers
                             beersQuery = beersQuery.Where(b => b.volume == volume);
                         }
                         break;
+                    case "price":
+                        if (float.TryParse(SearchText, out float price))
+                        {
+                            beersQuery = beersQuery.Where(b => b.price == price);
+                        }
+                        break;
+                    case "date":
+                        if (SearchDate.HasValue)
+                        {
+                            beersQuery = beersQuery.Where(b => b.DeadLine.Date == SearchDate.Value.Date);
+                        }
+                        break;
                     default:
+                         Beer = await beersQuery.ToListAsync();
                         break;
                 }
             }
