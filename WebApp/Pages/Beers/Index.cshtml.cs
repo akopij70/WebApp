@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
 using WebApp.Data;
 using WebApp.Models;
 
@@ -15,54 +11,52 @@ namespace WebApp.Pages.Beers
 {
     public class IndexModel : PageModel
     {
+        private readonly WebAppContext _context;
 
-        private readonly WebApp.Data.WebAppContext _context;
-
-        public IndexModel(WebApp.Data.WebAppContext context)
+        public IndexModel(WebAppContext context)
         {
             _context = context;
         }
 
-        public IList<Beer> Beer { get; set; } = default!;
+        public IList<Beer> Beer { get; set; }
 
-        public async Task OnGetAsync(string searchText)
+        [BindProperty(SupportsGet = true)]
+        public string SelectedOption { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchText { get; set; }
+
+        public async Task OnGetAsync()
         {
-            if (_context.Beer != null)
+            IQueryable<Beer> beersQuery = _context.Beer;
+
+            if (!string.IsNullOrEmpty(SelectedOption))
             {
-                //Request.Query.TryGetValue("options", out StringValues selectedOption);
-                //if (Request.Query.TryGetValue("options", out StringValues selectedOption) && !string.IsNullOrEmpty(selectedOption.FirstOrDefault()))
-                if (Request.Query.TryGetValue("options", out StringValues selectedOption) && !string.IsNullOrEmpty(selectedOption.FirstOrDefault()))
+                switch (SelectedOption)
                 {
-                    var selectedOptionValue = selectedOption.FirstOrDefault();
-                    //if (string.CompareselectedOptionValue, "name") Beer = await _context.Beer.Where(b => b.name.Contains(searchText)).ToListAsync();
-
-                    switch (selectedOptionValue)
-                    {
-                        case "name":
-                            Beer = await _context.Beer.Where(b => b.name.Contains(searchText)).ToListAsync();
-                            //Beer = await _context.Beer.ToListAsync();
-                            break;
-                        case "voltage":
-                            Beer = await _context.Beer.Where(b => b.voltage.Equals(float.Parse(searchText))).ToListAsync();
-                            break;
-                        case "volume":
-                            Beer = await _context.Beer.Where(b => b.volume.Equals(float.Parse(searchText))).ToListAsync();
-                            break;
-                        default:
-                            Beer = await _context.Beer.ToListAsync();
-                            //Beer = await _context.Beer.Where(b => b.name.Contains(searchText)).ToListAsync();
-                            break;
-                    }
-                }
-                else
-                {
-                    Beer = await _context.Beer.ToListAsync();
-
-                    // Beer = await _context.Beer.Where(b => b.name.Contains(searchText)).ToListAsync();
-
-                    // kod dla braku wyboru opcji
+                    case "name":
+                        beersQuery = beersQuery.Where(b => b.name.Contains(SearchText));
+                        break;
+                    case "voltage":
+                        if (float.TryParse(SearchText, out float voltage))
+                        {
+                            beersQuery = beersQuery.Where(b => b.voltage == voltage);
+                        }
+                        break;
+                    case "volume":
+                        if (float.TryParse(SearchText, out float volume))
+                        {
+                            beersQuery = beersQuery.Where(b => b.volume == volume);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
+
+            Beer = await beersQuery.ToListAsync();
         }
     }
 }
+
+    

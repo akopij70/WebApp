@@ -1,26 +1,24 @@
 ﻿@page
 @model WebApp.Pages.Beers.IndexModel
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Beers";
 }
 
-<h1>Index</h1>
+<h1>Beers</h1>
 
+<form method="get">
+    <label for="options">Search by:</label>
+    <select name="SelectedOption" id="options">
+        <option value="">All</option>
+        <option value="name">Name</option>
+        <option value="voltage">Voltage</option>
+        <option value="volume">Volume</option>
+    </select>
 
-<label for="options">Wybierz opcję:</label>
-<select id="options" name="options">
-    <option value="name">Name</option>
-    <option value="voltage">Voltage</option>
-    <option value="volume">Volume</option>
-</select>
+    <input type="text" name="SearchText" placeholder="Enter search text" />
+    <button type="submit">Search</button>
+</form>
 
-
-@using (Html.BeginForm("OnGetAsync", "Beer", FormMethod.Get))
-{
-    <input type="text" name="searchText" placeholder="Wpisz wyszukiwany tekst" />
-    <button type="submit">Szukaj</button>
-}
 <p>
     <a asp-page="Create">Create New</a>
 </p>
