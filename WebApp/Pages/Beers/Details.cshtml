@@ -5,11 +5,17 @@
     ViewData["Title"] = "Details";
 }
 
+@{
+    var sth = Model.Beer.name;
+    var imagePath = $"~/images/{sth}.jpg";
+}
+
 <h1>Details</h1>
 
 <div>
     <h4>Beer</h4>
     <hr />
+    <img src="@imagePath" asp-append-version="true" width="300px" height="400px">
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Beer.name)

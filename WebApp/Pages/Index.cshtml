@@ -4,7 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
+@{
+    var imagePath = @"images/Hello.jpg";
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>You can add beers and details to a special database. Bottoms up!</p>
+    <p><img src="@imagePath" alt="Sample" width="400px" height="300px" /></p>
 </div>
