@@ -16,4 +16,12 @@ html {
 body {
     margin-bottom: 60px;
     background-color: lightsteelblue;
-} 
+}
+
+.hyperlink-style {
+    transition: color 0.15s;
+}
+
+.hyperlink-style:hover {
+    color: red;
+}
